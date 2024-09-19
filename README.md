@@ -13,7 +13,7 @@ The WellnessApp is designed to enhance mental and physical well-being for colleg
 ## Project Setup
 
 ### GitHub Repository
-- Repository Name: `WellnessApp`
+- Repository Name: `healthhub`
 - Initialize with a README and a `.gitignore` file suitable for HTML, CSS, JavaScript, and Python projects.
 
 ### Configuration Management

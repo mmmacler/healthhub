@@ -17,7 +17,7 @@ const TaskCalendar = () => {
     <div className="p-6 bg-white rounded-md shadow-md">
       <h2 className="text-2xl font-semibold text-center mb-4">Task Calendar</h2>
       <Calendar onChange={onDateChange} value={date} />
-      <p className="text-center mt-4">Selected Date: {date.toDateString()}</p>
+      <p className="text-center mt-4 text-black">Selected Date: {date.toDateString()}</p>
     </div>
   );
 };

@@ -4,11 +4,63 @@
 Azenda is a mental health and task organization app designed to help users manage their daily schedules effectively. The app provides an interactive calendar where users can add tasks, set priorities, and receive optimized scheduling based on their time constraints. Azenda aims to assist individuals, including college students and working professionals, in organizing their tasks to reduce stress and improve productivity.
 
 ## Table of Contents
+- [Installation](#installation)
+- [Running Project](#running-project)
 - [Project Setup](#project-setup)
 - [Team Roles and Development Tasks](#team-roles-and-development-tasks)
 - [Cross-Team Collaboration](#cross-team-collaboration)
 - [Project Documentation and Deployment](#project-documentation-and-deployment)
 - [Contributing](#contributing)
+
+## Installation
+
+### Setting up Virtual Environment
+First, ensure that Python(version 3.10 and up) with Pip, npm package manager, and Node.js are installed\
+Using a python virtual environment is strongly recommended for running the backend server
+
+#### Open a terminal, navigate to healthhub/azenda/ in your personal repository, and run the following commands
+``` bash
+py -m venv venv
+venv\Scripts\activate #this command can be used at any time to run your virtual environment
+```
+You will know the virtual environmnet is running when you can see (venv) next to your directory listing in terminal
+### Setting up Backend
+#### Installing Dependencies
+Run the following command in the virtual environment at `healthhub/azenda/` to install required django configurations
+
+``` bash
+pip install -r requirements.txt
+```
+
+#### Setting up Database
+Run following commands in the virtual environment at `healthhub/azenda/backend/` to set up database
+``` bash
+py manage.py check
+py manage.py makemigrations
+py manage.py migrate
+```
+The above commands should also be run whenever a change is made to `healthhub/azenda/backend/accounts/models.py`
+
+### Setting up Frontend
+#### Create a new terminal(virtual environment isn't needed for next.js ) and navigate to `healthhub/azenda/app/`, then run following command
+``` bash
+npm install
+```
+
+## Running Project
+### Backend
+At healthhub/azenda/backend while using virtual environment in terminal, run
+``` bash
+  py manage.py runserver
+```
+### Front End
+While backend server is running on the first terminal, open a second one, navigate to `healthhub/azenda/app/`, and run
+``` bash
+  npm run dev
+```
+### Opening App
+Now, the app is available at  `http://localhost:3000/` and can be accessed from the browser
+
 
 ## Project Setup
 

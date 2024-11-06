@@ -15,10 +15,18 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path
-from accounts.views import login  # Import the login view
+from django.urls import path, include
+from accounts.views import login, createaccount, retrieveUserEvents, createEvent, modify_event  # Import the login view
+from accounts.routers import router
+
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/login/', login, name='login'),  # Add the login API endpoint
+    path('api/createaccount/', createaccount, name='createaccount'), # account creation endpoint
+    path('api/retrieveUserEvents/', retrieveUserEvents, name='retrieveUserEvents'),
+    path('api/createEvents/', createEvent, name='createEvent'),
+    path('api/modify_event/<int:event_id>/', modify_event, name='modify_event'),
+    path('api/', include((router.urls, 'core_api'), namespace='core_api')),
+
 ]

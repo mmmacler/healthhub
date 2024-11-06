@@ -1,4 +1,5 @@
 // app/page.js
+'use client'
 import TaskCalendar from '../components/Calendar';
 
 export default function Home() {

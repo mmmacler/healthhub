@@ -4,6 +4,7 @@
 import { useEffect, useState } from "react";
 import { useParams, useRouter, useSearchParams } from "next/navigation";
 
+//adds event to database
 async function addEvent(event_name, allows_concurrent_events, event_user, start_time_year, start_time_month, start_time_day, start_time_hour, start_time_minute, duration_mins)
 {
     const res = await fetch("http://127.0.0.1:8000/api/createEvents/", {
@@ -41,7 +42,7 @@ const Page = () => {
         .then(() => {
           // Navigate to the main page with a query parameter indicating success
           //router.replace("/?action=add");
-          router.replace(`/useraccount/${user_name}`);
+          router.replace(`../userevents`);
         })
         .catch(() => {
           setError("An error occurred");
@@ -53,7 +54,7 @@ const Page = () => {
     useEffect(() => {
       return () => setIsLoading(false);
     }, []);
-  
+  //big block containing all form data, i.e. where the user enters the name of the event etc.
     return (
       <form onSubmit={onFinish}>
         <div className="form-item">

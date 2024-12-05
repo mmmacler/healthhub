@@ -1,4 +1,9 @@
 # See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
+# no more, i plead
+*.pyc
+venv/
+*__pycache__*
+
 
 # dependencies
 /node_modules
@@ -34,18 +39,3 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
-
-# Ignore all Python bytecode files
-*.pyc
-
-# Ignore all __pycache__ directories
-__pycache__/
-
-# Ignore migrations folder bytecode files
-*/migrations/__pycache__/
-
-# Ignore initial migration file
-azenda/backend/accounts/migrations/0001_initial.py
-
-# Ignore the .pyc files inside any folder
-*/__pycache__/

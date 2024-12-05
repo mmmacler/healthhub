@@ -17,7 +17,7 @@ const LoginPage = () => {
     const [error, setError] = useState('');
     const [loading, setLoading] = useState(false);
 
-    const handleSubmit = async (event: React.FormEvent) => 
+    const handleSubmit = async (event: React.FormEvent) =>
     {
         event.preventDefault();
 
@@ -27,7 +27,6 @@ const LoginPage = () => {
             return;
         }
 
-        //calls the create account function in backend
         const response = await fetch(`http://localhost:8000/api/createaccount/`, {
             method: "POST",
             headers: {
@@ -35,32 +34,22 @@ const LoginPage = () => {
             },
             body: JSON.stringify({username, password, sleep_start, sleep_end}),
         });
-
-
-        //Case Handling
-
-        //Username already exists, so deny
         if(response.status==200)
         {
             setError('Username already exists.')
             return;
         }
-
-        //something bad happened, pray
         else if(response.status==500)
         {
             setError('Internal server error')
             return;
         }
-
-        //valid username, add it to database
         else if(response.status == 201)
         {
-            window.location.href = '/';
+            window.location.href = '/login/';
         }
     };
 
-    //handles form submission, essentially all the little input bars, each name corresponds to what info its storing
     return (
         <div className="min-h-screen flex items-center justify-center bg-gray-100">
             <div className="bg-white p-8 rounded shadow-md max-w-md w-full">

@@ -17,7 +17,7 @@ const LoginPage = () => {
     const [error, setError] = useState('');
     const [loading, setLoading] = useState(false);
 
-    const handleSubmit = async (event: React.FormEvent) => 
+    const handleSubmit = async (event: React.FormEvent) =>
     {
         event.preventDefault();
 

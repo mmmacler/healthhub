@@ -1,16 +1,3 @@
-// app/page.js
-/*
-import TaskCalendar from '../components/Calendar';
-
-export default function Home() {
-  return (
-    <main className="container mx-auto p-8">
-      <h1 className="text-4xl font-bold text-center mb-8">Welcome to Azenda</h1>
-      <TaskCalendar />
-    </main>
-  );
-}
-*/
 'use client';
 
 import { useState } from 'react';
@@ -44,12 +31,12 @@ const LoginPage = () => {
         if (response.ok) {
             const result = await response.json();
             console.log('Login successful:', result);
-            window.location.href = `/useraccount/${username}`;  // Redirect to calendar page on success
+            window.location.href = '/';  // Redirect to calendar page on success
         } else {
             setError('Login failed. Please try again.');
         }
     };
-//big block containing the input fields, where the user enters strings
+
     return (
         <div className="min-h-screen flex items-center justify-center bg-gray-100">
             <div className="bg-white p-8 rounded shadow-md max-w-md w-full">

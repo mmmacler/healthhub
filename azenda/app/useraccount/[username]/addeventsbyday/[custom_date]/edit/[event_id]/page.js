@@ -54,7 +54,7 @@ const Page = () => {
         .then(() => {
           // Navigate to the main page with a query parameter indicating success
           //router.replace("/?action=add");
-          router.replace(`../../${full_date}`);
+          router.replace(`/useraccount/${user_name}`);
         })
         .catch((error) => {
             console.error("Error details:", error);

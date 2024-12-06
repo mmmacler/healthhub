@@ -91,6 +91,7 @@ def retrieve_Events_from_Day(request):
 def createEvent(request):
     _event_name = request.data.get('event_name')
     _allows_concurrent_events = request.data.get('allows_concurrent_events')
+    if not _allows_concurrent_events: _allows_concurrent_events = False
 
 
     event_user_id = request.data.get('event_user')
@@ -104,8 +105,8 @@ def createEvent(request):
     _duration_hrs = request.data.get('duration_hrs')
 
     _duration_hrs = int(_duration_hrs)
-    
-    
+
+
 
 
     d = datetime(int(_start_time_year),
@@ -379,7 +380,7 @@ def createEvent(request):
                               duration_hrs = int(_duration_hrs),)
             new_event.save()
 
-           
+
             return Response({"message": "Event Created"}, status=status.HTTP_201_CREATED)#correct functioning case, need an additional case for handling event conflicts
         except IntegrityError:
             return Response({"message": "Failed to create account due to database error."}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
@@ -430,11 +431,11 @@ def optimize(request):
         task3name = request.data.get('task3name')
 
         task1time = request.data.get('task1time')
-        task2time = request.data.get('task2time')    
+        task2time = request.data.get('task2time')
         task3time = request.data.get('task3time')
 
         task3duedate = request.data.get('task3duedate')
-        
+
         task1duedate = request.data.get('task1duedate')
         task2duedate = request.data.get('task2duedate')
 
@@ -458,7 +459,7 @@ def optimize(request):
                                     event_user = _username_,
                                     start_time = datetime(2024, 12, 8, 5, 0),
                                     duration_hrs = 2)
-        task1it3.save(); 
+        task1it3.save();
 
         task2it1 = Event(event_name = task2name,
                                 allows_concurrent_events = False,
@@ -491,7 +492,7 @@ def optimize(request):
                                 duration_hrs = 1
                         )
         task2it4.save()
-        
+
 
         task3it1 = Event(event_name = task3name,
                                 allows_concurrent_events = False,

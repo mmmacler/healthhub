@@ -1,3 +1,20 @@
+.main-container {
+    display: flex;
+    flex-direction: row;
+    gap: 20px; 
+  }
+  
+  .calendar-section {
+    flex: 1; 
+    padding: 10px;
+    border-right: 1px solid #ccc;
+  }
+  
+  .event-box-section {
+    flex: 1; 
+    padding: 10px;
+    overflow-y: auto;
+  }
 
 .menu-container {
     max-width: 70%;

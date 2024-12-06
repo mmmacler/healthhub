@@ -1,14 +1,29 @@
 .main-container {
     display: flex;
     flex-direction: row;
-    gap: 20px; 
+    gap: 20px;
   }
-  
-  .calendar-section {
-    flex: 1; 
+  body {
+    background-color: #94b17e; /* Replace with your desired background color */
+    margin: 0; /* Remove default margin */
+    padding: 0; /* Remove default padding */
+  }
+
+.calendar-section {
+    flex: 1;
     padding: 10px;
-    border-right: 1px solid #ccc;
-  }
+    border-right: 1px solid #94b17e;
+    display: flex; /* Make it a flex container */
+    flex-direction: column; /* Stack items vertically */
+    align-items: center; /* Center items horizontally */
+    gap: 20px; /* Space between calendar and buttons */
+}
+
+.button-section {
+    display: flex; /* Flex container for buttons */
+    justify-content: center; /* Center buttons horizontally */
+    gap: 10px; /* Add spacing between the buttons */
+}
   
   .event-box-section {
     flex: 1; 

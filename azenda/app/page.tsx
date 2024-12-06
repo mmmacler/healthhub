@@ -14,7 +14,7 @@ export default function Home() {
 'use client';
 
 import { useState } from 'react';
-
+import Link from 'next/link'
 // Regular expression to allow only letters and numbers for username
 const usernameRegex = /^[a-zA-Z0-9]+$/;
 
@@ -94,6 +94,7 @@ const LoginPage = () => {
                         {loading ? 'Logging in...' : 'Login'}
                     </button>
                 </form>
+                <Link href = "/addaccount" style={{color: '#c2c2e6'}}><br />Create an Account</Link>
             </div>
         </div>
     );

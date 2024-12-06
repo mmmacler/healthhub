@@ -14,13 +14,13 @@ async function modifyEvent(id, data)
         },
         body: JSON.stringify(data),
       });
-    
+
       if (!res.ok) {
         throw new Error("Failed to create data");
       }
-    
+
       return res.json();
-    
+
 }
 //finds an event and assigns to const
 async function getEvent(id)
@@ -32,13 +32,13 @@ async function getEvent(id)
     if (!res.ok) {
         throw new Error("Failed to create data");
       }
-    
+
       return res.json();
 }
 
 const Page = () => {
     const router = useRouter();
-    const [formData, setFormData] = useState({event_name: "", start_time: "", duration_mins: ""});
+    const [formData, setFormData] = useState({event_name: "", start_time: "", duration_hrs: ""});
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState(null);
     const params = useParams();
@@ -63,7 +63,7 @@ const Page = () => {
             setIsLoading(false);
         });
     };
-  
+
     // Cleanup effect for resetting loading state
     useEffect(() => {
       return () => setIsLoading(false);
@@ -73,7 +73,7 @@ const Page = () => {
         const fetchData = async () => {
           try {
             const data = await getEvent(eventid);
-            setFormData({event_name: data.event_name, start_time: data.start_time, duration_mins: data.duration_mins});
+            setFormData({event_name: data.event_name, start_time: data.start_time, duration_hrs: data.duration_hrs});
           } catch (error) {
             setError(error.message);
           }
@@ -106,14 +106,14 @@ const Page = () => {
         </div>
 
         <div className="form-item">
-          <label htmlFor="duration_mins">Duration of Event(in minutes)</label>
+          <label htmlFor="duration_hrs">Duration of Event (in hours)</label>
           <input
             required
-            name="duration_mins"
+            name="duration_hrs"
             type="number"
-            value={formData.duration_mins}
+            value={formData.duration_hrs}
             onChange={(event) =>
-              setFormData({ ...formData, duration_mins: event.target.value })
+              setFormData({ ...formData, duration_hrs: event.target.value })
             }
           />
         </div>
@@ -126,5 +126,5 @@ const Page = () => {
       </form>
     );
   };
-  
+
   export default Page;

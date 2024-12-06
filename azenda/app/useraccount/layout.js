@@ -6,7 +6,7 @@ import "./style.css";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata = {
-  title: "Restaurant Menu",
+  title: "Task Calendar",
   description: "A simple UI to handle menus",
 };
 

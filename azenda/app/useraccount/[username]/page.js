@@ -39,14 +39,14 @@ async function getEventsbyDay(username, year_of, month_of, day_of)
 
 
 
-const Eventbox = ({ id, event_name, allows_concurrent_events, start_time, duration_mins, onEdit, onDelete }) => {
+const Eventbox = ({ id, event_name, allows_concurrent_events, start_time, duration_hrs, onEdit, onDelete }) => {
     return (
       <div className="menu-item" data-id={id}>
         <div className="menu-item-info">
           <div className="menu-item-name">{event_name}</div>
           <div className="menu-item-name">{allows_concurrent_events}</div>
           <div className="menu-item-name">{start_time}</div>
-          <div className="menu-item-name">{duration_mins}</div>
+          <div className="menu-item-name">{duration_hrs} Hours</div>
         </div>
         <div className="menu-item-actions">
           <button className="edit-button" onClick={onEdit}>
@@ -114,7 +114,7 @@ export default function Page() {
                     </button>
                     <button
                         className="add-button"
-                        onClick={() => router.push(`${user_name}/optimize-tasks`)}
+                        onClick={() => router.push(`${user_name}/optimized_tasks`)}
                     >
                         Optimize Tasks
                     </button>
@@ -124,7 +124,6 @@ export default function Page() {
         <div className="event-box-section">
             <h2 className="text-2xl font-semibold text-center mb-4">Enter Task for Selected Date</h2>
             <h2 className="text-2xl font-semibold text-center mb-4">Selected Date: {selectedDate.toDateString()}</h2>
-
             <button
                 className="add-button"
                 onClick={() => router.push(`${user_name}/addeventsbyday/${selectedDate.getMonth() + 1}-${selectedDate.getDate()}-${selectedDate.getFullYear()}/addevents`)}
@@ -139,7 +138,7 @@ export default function Page() {
                         event_name={item.event_name}
                         allows_concurrent_events={item.allows_concurrent_events}
                         start_time={item.start_time}
-                        duration_mins={item.duration_mins}
+                        duration_hrs={item.duration_hrs}
                         onEdit={() => router.push(`${user_name}/addeventsbyday/${selectedDate.getMonth() + 1}-${selectedDate.getDate()}-${selectedDate.getFullYear()}/edit/${item.id}`)}
                         onDelete={handleDelete}
                     />

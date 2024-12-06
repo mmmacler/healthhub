@@ -11,7 +11,7 @@ import { useParams, useRouter, useSearchParams } from "next/navigation";
 
 
 
-async function deleteEvent(id) 
+async function deleteEvent(id)
 {
     const res = await fetch(`http://localhost:8000/api/event/${id}/`, {
       method: "DELETE",

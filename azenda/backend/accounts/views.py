@@ -6,7 +6,7 @@ from .serializers import EventSerializer
 from django.db import IntegrityError
 from django.http.response import JsonResponse
 from django.shortcuts import get_object_or_404
-from datetime import datetime
+from datetime import datetime, timedelta
 from rest_framework.parsers import JSONParser
 from django.views.decorators.csrf import csrf_exempt
 
@@ -20,16 +20,7 @@ def login(request): #login a user
     username = request.data.get('username')
     password = request.data.get('password')
 
-    '''
-    # Simple hardcoded login check for now
-    if username == 'username' and password == 'password':
-        return Response({"message": "Login successful!"}, status=status.HTTP_200_OK)
-    else:
-        return Response({"error": "Invalid credentials"}, status=status.HTTP_401_UNAUTHORIZED)
-    '''
-
     #check if the username the user put in even exists, if it doesn't go to except
-
     try:
         account = Account.objects.get(username=username)
 
@@ -102,6 +93,9 @@ def createEvent(request):
     _allows_concurrent_events = request.data.get('allows_concurrent_events')
 
 
+
+
+
     event_user_id = request.data.get('event_user')
     _event_user = get_object_or_404(Account, username=event_user_id) #foreign key for user
 
@@ -112,6 +106,14 @@ def createEvent(request):
     _start_time_hour = request.data.get('start_time_hour')
     _duration_hrs = request.data.get('duration_hrs')
 
+    if not _allows_concurrent_events:
+        _allows_concurrent_events = False
+        # filter for events happening this day
+        alluserevents = Event.objects.all()
+        alluserevents = alluserevents.filter(start_time__year = _start_time_year, start_time__month = _start_time_month, start_time__day = _start_time_day)
+        # loop and check we aren't overlapping another event
+        #alluserevents.
+
 
     d = datetime(int(_start_time_year),
                  int(_start_time_month),
@@ -119,18 +121,286 @@ def createEvent(request):
                  int(_start_time_hour),
                  0)
 
-    try:#whole bunch of error handling
-        new_event = Event(event_name = _event_name,
-                          allows_concurrent_events = _allows_concurrent_events,
-                          event_user = _event_user,
-                          start_time = d,
-                          duration_hrs = int(_duration_hrs))
-        new_event.save()
-        return Response({"message": "Event Created"}, status=status.HTTP_201_CREATED)#correct functioning case, need an additional case for handling event conflicts
-    except IntegrityError:
-        return Response({"message": "Failed to create account due to database error."}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
-    except Exception as e:
-        return Response({"message": f"An unexpected error occurred: {str(e)}"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+    print(d.weekday())
+    print("AHHHHH!!!")
+
+    # do different things if this is/isn't a recurring event
+    _recurring = request.data.get("recurring")
+    if _recurring:
+        # i am tired and stupid
+        _monday = request.data.get('mon')
+        if _monday:
+            if d.isoweekday() > 1:
+                for x in range(0, 3):
+                    tmp = d
+                    tmp += timedelta(days=(7-(tmp.isoweekday() - 1) + (7 * x)))
+                    print(d)
+                    print(tmp)
+                    new_event = Event(event_name = _event_name,
+                                      allows_concurrent_events = _allows_concurrent_events,
+                                      event_user = _event_user,
+                                      start_time = tmp,
+                                      duration_hrs = int(_duration_hrs),)
+                    new_event.save()
+            elif d.isoweekday() < 1:
+                for x in range (0, 3):
+                    tmp = d
+                    tmp += timedelta(days=(1-tmp.isoweekday() + (7 * x)))
+                    new_event = Event(event_name = _event_name,
+                                      allows_concurrent_events = _allows_concurrent_events,
+                                      event_user = _event_user,
+                                      start_time = tmp,
+                                      duration_hrs = int(_duration_hrs),)
+                    new_event.save()
+            else:
+                for x in range (1, 3):
+                    tmp = d
+                    tmp += timedelta(days=(x*7))
+                    new_event = Event(event_name = _event_name,
+                                      allows_concurrent_events = _allows_concurrent_events,
+                                      event_user = _event_user,
+                                      start_time = tmp,
+                                      duration_hrs = int(_duration_hrs),)
+                    new_event.save()
+
+        _tuesday = request.data.get('tue')
+        if _tuesday:
+            if d.isoweekday() > 2:
+                for x in range(0, 3):
+                    tmp = d
+                    tmp += timedelta(days=(7-(tmp.isoweekday() - 2) + (7 * x)))
+                    print(d)
+                    print(tmp)
+                    new_event = Event(event_name = _event_name,
+                                      allows_concurrent_events = _allows_concurrent_events,
+                                      event_user = _event_user,
+                                      start_time = tmp,
+                                      duration_hrs = int(_duration_hrs),)
+                    new_event.save()
+            elif d.isoweekday() < 2:
+                for x in range (0, 3):
+                    tmp = d
+                    tmp += timedelta(days=(2-tmp.isoweekday() + (7 * x)))
+                    new_event = Event(event_name = _event_name,
+                                      allows_concurrent_events = _allows_concurrent_events,
+                                      event_user = _event_user,
+                                      start_time = tmp,
+                                      duration_hrs = int(_duration_hrs),)
+                    new_event.save()
+            else:
+                for x in range (1, 3):
+                    tmp = d
+                    tmp += timedelta(days=(x*7))
+                    new_event = Event(event_name = _event_name,
+                                      allows_concurrent_events = _allows_concurrent_events,
+                                      event_user = _event_user,
+                                      start_time = tmp,
+                                      duration_hrs = int(_duration_hrs),)
+                    new_event.save()
+
+        _wednesday = request.data.get('wed')
+        if _wednesday:
+            if d.isoweekday() > 3:
+                for x in range(0, 3):
+                    tmp = d
+                    tmp += timedelta(days=(7-(tmp.isoweekday() - 3) + (7 * x)))
+                    print(d)
+                    print(tmp)
+                    new_event = Event(event_name = _event_name,
+                                      allows_concurrent_events = _allows_concurrent_events,
+                                      event_user = _event_user,
+                                      start_time = tmp,
+                                      duration_hrs = int(_duration_hrs),)
+                    new_event.save()
+            elif d.isoweekday() < 3:
+                for x in range (0, 3):
+                    tmp = d
+                    tmp += timedelta(days=(3-tmp.isoweekday() + (7 * x)))
+                    new_event = Event(event_name = _event_name,
+                                      allows_concurrent_events = _allows_concurrent_events,
+                                      event_user = _event_user,
+                                      start_time = tmp,
+                                      duration_hrs = int(_duration_hrs),)
+                    new_event.save()
+            else:
+                for x in range (1, 3):
+                    tmp = d
+                    tmp += timedelta(days=(x*7))
+                    new_event = Event(event_name = _event_name,
+                                      allows_concurrent_events = _allows_concurrent_events,
+                                      event_user = _event_user,
+                                      start_time = tmp,
+                                      duration_hrs = int(_duration_hrs),)
+                    new_event.save()
+
+        _thursday = request.data.get('thu')
+        if _thursday:
+            if d.isoweekday() > 4:
+                for x in range(0, 3):
+                    tmp = d
+                    tmp += timedelta(days=(7-(tmp.isoweekday() - 4) + (7 * x)))
+                    print(d)
+                    print(tmp)
+                    new_event = Event(event_name = _event_name,
+                                      allows_concurrent_events = _allows_concurrent_events,
+                                      event_user = _event_user,
+                                      start_time = tmp,
+                                      duration_hrs = int(_duration_hrs),)
+                    new_event.save()
+            elif d.isoweekday() < 4:
+                for x in range (0, 3):
+                    tmp = d
+                    tmp += timedelta(days=(4-tmp.isoweekday() + (7 * x)))
+                    new_event = Event(event_name = _event_name,
+                                      allows_concurrent_events = _allows_concurrent_events,
+                                      event_user = _event_user,
+                                      start_time = tmp,
+                                      duration_hrs = int(_duration_hrs),)
+                    new_event.save()
+            else:
+                for x in range (1, 3):
+                    tmp = d
+                    tmp += timedelta(days=(x*7))
+                    new_event = Event(event_name = _event_name,
+                                      allows_concurrent_events = _allows_concurrent_events,
+                                      event_user = _event_user,
+                                      start_time = tmp,
+                                      duration_hrs = int(_duration_hrs),)
+                    new_event.save()
+
+        _friday = request.data.get('fri')
+        if _friday:
+            if d.isoweekday() > 5:
+                for x in range(0, 3):
+                    tmp = d
+                    tmp += timedelta(days=(7-(tmp.isoweekday() - 5) + (7 * x)))
+                    print(d)
+                    print(tmp)
+                    new_event = Event(event_name = _event_name,
+                                      allows_concurrent_events = _allows_concurrent_events,
+                                      event_user = _event_user,
+                                      start_time = tmp,
+                                      duration_hrs = int(_duration_hrs),)
+                    new_event.save()
+            elif d.isoweekday() < 5:
+                for x in range (0, 3):
+                    tmp = d
+                    tmp += timedelta(days=(5-tmp.isoweekday() + (7 * x)))
+                    new_event = Event(event_name = _event_name,
+                                      allows_concurrent_events = _allows_concurrent_events,
+                                      event_user = _event_user,
+                                      start_time = tmp,
+                                      duration_hrs = int(_duration_hrs),)
+                    new_event.save()
+            else:
+                for x in range (1, 3):
+                    tmp = d
+                    tmp += timedelta(days=(x*7))
+                    new_event = Event(event_name = _event_name,
+                                      allows_concurrent_events = _allows_concurrent_events,
+                                      event_user = _event_user,
+                                      start_time = tmp,
+                                      duration_hrs = int(_duration_hrs),)
+                    new_event.save()
+
+        _saturday = request.data.get('sat')
+        if _saturday:
+            if d.isoweekday() > 6:
+                for x in range(0, 3):
+                    tmp = d
+                    tmp += timedelta(days=(7-(tmp.isoweekday() - 6) + (7 * x)))
+                    print(d)
+                    print(tmp)
+                    new_event = Event(event_name = _event_name,
+                                      allows_concurrent_events = _allows_concurrent_events,
+                                      event_user = _event_user,
+                                      start_time = tmp,
+                                      duration_hrs = int(_duration_hrs),)
+                    new_event.save()
+            elif d.isoweekday() < 6:
+                for x in range (0, 3):
+                    tmp = d
+                    tmp += timedelta(days=(6-tmp.isoweekday() + (7 * x)))
+                    new_event = Event(event_name = _event_name,
+                                      allows_concurrent_events = _allows_concurrent_events,
+                                      event_user = _event_user,
+                                      start_time = tmp,
+                                      duration_hrs = int(_duration_hrs),)
+                    new_event.save()
+            else:
+                for x in range (1, 3):
+                    tmp = d
+                    tmp += timedelta(days=(x*7))
+                    new_event = Event(event_name = _event_name,
+                                      allows_concurrent_events = _allows_concurrent_events,
+                                      event_user = _event_user,
+                                      start_time = tmp,
+                                      duration_hrs = int(_duration_hrs),)
+                    new_event.save()
+
+
+
+        _sunday = request.data.get('sun')
+        if _sunday:
+            if d.isoweekday() > 7:
+                for x in range(0, 3):
+                    tmp = d
+                    tmp += timedelta(days=(7-(tmp.isoweekday() - 7) + (7 * x)))
+                    print(d)
+                    print(tmp)
+                    new_event = Event(event_name = _event_name,
+                                      allows_concurrent_events = _allows_concurrent_events,
+                                      event_user = _event_user,
+                                      start_time = tmp,
+                                      duration_hrs = int(_duration_hrs),)
+                    new_event.save()
+            elif d.isoweekday() < 7:
+                for x in range (0, 3):
+                    tmp = d
+                    tmp += timedelta(days=(7-tmp.isoweekday() + (7 * x)))
+                    new_event = Event(event_name = _event_name,
+                                      allows_concurrent_events = _allows_concurrent_events,
+                                      event_user = _event_user,
+                                      start_time = tmp,
+                                      duration_hrs = int(_duration_hrs),)
+                    new_event.save()
+            else:
+                for x in range (1, 3):
+                    tmp = d
+                    tmp += timedelta(days=(x*7))
+                    new_event = Event(event_name = _event_name,
+                                      allows_concurrent_events = _allows_concurrent_events,
+                                      event_user = _event_user,
+                                      start_time = tmp,
+                                      duration_hrs = int(_duration_hrs),)
+                    new_event.save()
+
+        try:#whole bunch of error handling
+            new_event = Event(event_name = _event_name,
+                              allows_concurrent_events = _allows_concurrent_events,
+                              event_user = _event_user,
+                              start_time = d,
+                              duration_hrs = int(_duration_hrs),)
+            new_event.save()
+            return Response({"message": "Event Created"}, status=status.HTTP_201_CREATED)#correct functioning case, need an additional case for handling event conflicts
+        except IntegrityError:
+            return Response({"message": "Failed to create account due to database error."}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+        except Exception as e:
+            return Response({"message": f"An unexpected error occurred: {str(e)}"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+    else:
+        try:#whole bunch of error handling
+            new_event = Event(event_name = _event_name,
+                              allows_concurrent_events = _allows_concurrent_events,
+                              event_user = _event_user,
+                              start_time = d,
+                              duration_hrs = int(_duration_hrs))
+            new_event.save()
+            return Response({"message": "Event Created"}, status=status.HTTP_201_CREATED)#correct functioning case, need an additional case for handling event conflicts
+        except IntegrityError:
+            return Response({"message": "Failed to create account due to database error."}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+        except Exception as e:
+            return Response({"message": f"An unexpected error occurred: {str(e)}"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 
 @csrf_exempt

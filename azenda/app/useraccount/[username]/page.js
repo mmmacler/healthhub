@@ -103,19 +103,23 @@ export default function Page() {
   return (
     <main className="main-container">
         <div className="calendar-section">
-            <TaskCalendar onDateChange={(date) => setSelectedDate(date)}/>
-            <button
-                className="add-button"
-                onClick={() => router.push(`${user_name}/add-repeating-events`)}
-            >
-                Add Repeating Events
-            </button>
-            <button
-                className="add-button"
-                onClick={() => router.push(`${user_name}/optimize-tasks`)}
-            >
-                Optimize Tasks
-            </button>
+            <div className="center-container">
+                <TaskCalendar onDateChange={(date) => setSelectedDate(date)}/>
+                <div className="button-section">
+                    <button
+                        className="add-button"
+                        onClick={() => router.push(`${user_name}/add-repeating-events`)}
+                    >
+                        Add Repeating Events
+                    </button>
+                    <button
+                        className="add-button"
+                        onClick={() => router.push(`${user_name}/optimize-tasks`)}
+                    >
+                        Optimize Tasks
+                    </button>
+                </div>
+            </div>
         </div>
         <div className="event-box-section">
             <h2 className="text-2xl font-semibold text-center mb-4">Enter Task for Selected Date</h2>

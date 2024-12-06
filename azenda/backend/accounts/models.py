@@ -25,12 +25,13 @@ class Event(models.Model):
     start_time = models.DateTimeField(default=datetime(1970, 1, 1))
     duration_hrs = models.IntegerField(default=0)
 
-class RecurringEvent(Event):
-    # model what days this task recurs on
-    monday = models.BooleanField(default=False)
-    tuesday = models.BooleanField(default=False)
-    wednesday = models.BooleanField(default=False)
-    thursday = models.BooleanField(default=False)
-    friday = models.BooleanField(default=False)
-    saturday = models.BooleanField(default=False)
-    sunday = models.BooleanField(default=False)
+
+#class RecurringEvent(Event):
+#    # model what days this task recurs on
+#    monday = models.BooleanField(default=False)
+#    tuesday = models.BooleanField(default=False)
+#    wednesday = models.BooleanField(default=False)
+#    thursday = models.BooleanField(default=False)
+#    friday = models.BooleanField(default=False)
+#    saturday = models.BooleanField(default=False)
+#    sunday = models.BooleanField(default=False)

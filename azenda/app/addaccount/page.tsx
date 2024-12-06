@@ -62,13 +62,13 @@ const LoginPage = () => {
 
     //handles form submission, essentially all the little input bars, each name corresponds to what info its storing
     return (
-        <div className="min-h-screen flex items-center justify-center bg-gray-100">
-            <div className="bg-white p-8 rounded shadow-md max-w-md w-full">
+        <div className="min-h-screen flex items-center justify-center" style={{ backgroundColor: '#9ab18c' }}>
+            <div className="p-8 rounded shadow-md max-w-md w-full" style={{ backgroundColor: '#778e65' }}>
                 <h2 className="text-2xl font-bold mb-6 text-center">Create an Account</h2>
                 {error && <p className="text-red-500 text-sm text-center">{error}</p>}
                 <form onSubmit={handleSubmit} className="space-y-6">
                     <div>
-                        <label htmlFor="username" className="block text-sm font-medium text-gray-700">Username</label>
+                        <label htmlFor="username" className="block text-sm font-medium text-black-700">Username</label>
                         <input
                             type="text"
                             id="username"
@@ -80,7 +80,7 @@ const LoginPage = () => {
                     </div>
 
                     <div>
-                        <label htmlFor="password" className="block text-sm font-medium text-gray-700">Password</label>
+                        <label htmlFor="password" className="block text-sm font-medium text-black-700">Password</label>
                         <input
                             type="password"
                             id="password"
@@ -92,7 +92,7 @@ const LoginPage = () => {
                     </div>
 
                     <div>
-                        <label htmlFor="sleep_start" className="block text-sm font-medium text-gray-700">Start of your Sleep Cycle</label>
+                        <label htmlFor="sleep_start" className="block text-sm font-medium text-black-700">Start of your Sleep Cycle</label>
                         <input
                             type="number"
                             id="sleep_start"
@@ -104,7 +104,7 @@ const LoginPage = () => {
                     </div>
 
                     <div>
-                        <label htmlFor="sleep_end" className="block text-sm font-medium text-gray-700">End of your Sleep Cycle</label>
+                        <label htmlFor="sleep_end" className="block text-sm font-medium text-black-700">End of your Sleep Cycle</label>
                         <input
                             type="number"
                             id="sleep_end"
@@ -118,7 +118,11 @@ const LoginPage = () => {
                     <button
                         type="submit"
                         disabled={loading}
-                        className={`w-full py-2 px-4 ${loading ? 'bg-gray-400' : 'bg-indigo-600'} text-white font-semibold rounded-lg shadow-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-opacity-75`}
+                        style={{
+                            backgroundColor: loading ? '#cccccc' : '#b5b5ec', // Custom color for loading and normal states
+                            color: '#ffffff', // Text color
+                        }}
+                        className="w-full py-2 px-4 font-semibold rounded-lg shadow-md hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-opacity-75"
                     >
                         {loading ? '...' : 'Create Account'}
                     </button>

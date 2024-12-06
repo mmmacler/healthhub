@@ -21,13 +21,13 @@
     height: 90vh;
     margin: 0 auto;
     padding: 20px;
-    background: #f9f9f9;
+    background: #94b17e;
     border-radius: 8px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .menu-item {
-    border: 1px solid #ddd;
+    border: 1px solid #153c00;
     padding: 10px;
     margin: 10px;
     border-radius: 4px;
@@ -35,7 +35,7 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background-color: #fff;
+    background-color: #dbdbff;
 }
 
 .menu-item-info {
@@ -66,19 +66,19 @@ button {
 }
 
 .edit-button {
-    background-color: #ffca28;
-    color: #333;
+    background-color: #153c00;
+    color: #ffffff;
 }
 
 .add-button {
-    background-color: #008000;
+    background-color: #153c00;
     color: #fff;
     padding: 10px;
     margin: 10px;
 }
 
 .delete-button {
-    background-color: #f44336;
+    background-color: #a83834;
     color: #fff;
 }
 

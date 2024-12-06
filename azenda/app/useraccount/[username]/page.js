@@ -102,36 +102,49 @@ export default function Page() {
 
   return (
     <main className="main-container">
-      <div className="calendar-section">
-      <TaskCalendar onDateChange={(date) => setSelectedDate(date)} />
-      </div>
-      <div className="event-box-section">
-        <h2 className="text-2xl font-semibold text-center mb-4">Enter Task for Selected Date</h2>
-        <h2 className="text-2xl font-semibold text-center mb-4">Selected Date: {selectedDate.toDateString()}</h2>
+        <div className="calendar-section">
+            <TaskCalendar onDateChange={(date) => setSelectedDate(date)}/>
+            <button
+                className="add-button"
+                onClick={() => router.push(`${user_name}/add-repeating-events`)}
+            >
+                Add Repeating Events
+            </button>
+            <button
+                className="add-button"
+                onClick={() => router.push(`${user_name}/optimize-tasks`)}
+            >
+                Optimize Tasks
+            </button>
+        </div>
+        <div className="event-box-section">
+            <h2 className="text-2xl font-semibold text-center mb-4">Enter Task for Selected Date</h2>
+            <h2 className="text-2xl font-semibold text-center mb-4">Selected Date: {selectedDate.toDateString()}</h2>
 
-        <button
-          className="add-button"
-          onClick={() => router.push(`${user_name}/addeventsbyday/${selectedDate.getMonth() + 1}-${selectedDate.getDate()}-${selectedDate.getFullYear()}/addevents`)}
-        >
-          Add Event
-        </button>
-        {eventItems.length > 0 ? (
-          eventItems.map((item) => (
-            <Eventbox
-              key={item.id}
-              id={item.id}
-              event_name={item.event_name}
-              allows_concurrent_events={item.allows_concurrent_events}
-              start_time={item.start_time}
-              duration_mins={item.duration_mins}
-              onEdit={() => router.push(`${user_name}/addeventsbyday/${selectedDate.getMonth() + 1}-${selectedDate.getDate()}-${selectedDate.getFullYear()}/edit/${item.id}`)}
-              onDelete={handleDelete}
-            />
-          ))
-        ) : (
-          <p>No events available</p>
-        )}
-      </div>
+            <button
+                className="add-button"
+                onClick={() => router.push(`${user_name}/addeventsbyday/${selectedDate.getMonth() + 1}-${selectedDate.getDate()}-${selectedDate.getFullYear()}/addevents`)}
+            >
+                Add Event
+            </button>
+            {eventItems.length > 0 ? (
+                eventItems.map((item) => (
+                    <Eventbox
+                        key={item.id}
+                        id={item.id}
+                        event_name={item.event_name}
+                        allows_concurrent_events={item.allows_concurrent_events}
+                        start_time={item.start_time}
+                        duration_mins={item.duration_mins}
+                        onEdit={() => router.push(`${user_name}/addeventsbyday/${selectedDate.getMonth() + 1}-${selectedDate.getDate()}-${selectedDate.getFullYear()}/edit/${item.id}`)}
+                        onDelete={handleDelete}
+                    />
+                ))
+            ) : (
+                <p>No events available</p>
+            )}
+        </div>
+
     </main>
   );
 }

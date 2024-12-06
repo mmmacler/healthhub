@@ -16,7 +16,7 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
-from accounts.views import login, createaccount, retrieveUserEvents, createEvent, modify_event, retrieve_Events_from_Day  # Import the login view
+from accounts.views import login, createaccount, retrieveUserEvents, createEvent, modify_event, retrieve_Events_from_Day, optimize  # Import the login view
 from accounts.routers import router
 
 
@@ -28,5 +28,6 @@ urlpatterns = [
     path('api/createEvents/', createEvent, name='createEvent'), #make an event for a specific user
     path('api/modify_event/<int:event_id>/', modify_event, name='modify_event'), #path for modifying events, has dynamic parameter for the id of the event to be modified
     path('api/', include((router.urls, 'core_api'), namespace='core_api')),
-    path('api/retrieve_Events_from_Day/', retrieve_Events_from_Day, name='retrieve_Events_from_Day')
+    path('api/retrieve_Events_from_Day/', retrieve_Events_from_Day, name='retrieve_Events_from_Day'),
+    path('api/optimize/', optimize, name='optimize')
 ]

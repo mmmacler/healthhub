@@ -93,9 +93,6 @@ def createEvent(request):
     _allows_concurrent_events = request.data.get('allows_concurrent_events')
 
 
-
-
-
     event_user_id = request.data.get('event_user')
     _event_user = get_object_or_404(Account, username=event_user_id) #foreign key for user
 
@@ -106,13 +103,9 @@ def createEvent(request):
     _start_time_hour = request.data.get('start_time_hour')
     _duration_hrs = request.data.get('duration_hrs')
 
-    if not _allows_concurrent_events:
-        _allows_concurrent_events = False
-        # filter for events happening this day
-        alluserevents = Event.objects.all()
-        alluserevents = alluserevents.filter(start_time__year = _start_time_year, start_time__month = _start_time_month, start_time__day = _start_time_day)
-        # loop and check we aren't overlapping another event
-        #alluserevents.
+    _duration_hrs = int(_duration_hrs)
+    
+    
 
 
     d = datetime(int(_start_time_year),
@@ -120,6 +113,9 @@ def createEvent(request):
                  int(_start_time_day),
                  int(_start_time_hour),
                  0)
+
+
+
 
     print(d.weekday())
     print("AHHHHH!!!")
@@ -382,6 +378,8 @@ def createEvent(request):
                               start_time = d,
                               duration_hrs = int(_duration_hrs),)
             new_event.save()
+
+           
             return Response({"message": "Event Created"}, status=status.HTTP_201_CREATED)#correct functioning case, need an additional case for handling event conflicts
         except IntegrityError:
             return Response({"message": "Failed to create account due to database error."}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
@@ -396,6 +394,7 @@ def createEvent(request):
                               start_time = d,
                               duration_hrs = int(_duration_hrs))
             new_event.save()
+
             return Response({"message": "Event Created"}, status=status.HTTP_201_CREATED)#correct functioning case, need an additional case for handling event conflicts
         except IntegrityError:
             return Response({"message": "Failed to create account due to database error."}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
@@ -421,3 +420,88 @@ def modify_event(request, event_id): #Edit an event
             event_serializer.save()
             return JsonResponse(event_serializer.data)
         return JsonResponse(event_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+@api_view(['POST'])
+def optimize(request):
+    try:
+        username_ = request.data.get('username')
+        task1name = request.data.get('task1name')
+        task2name = request.data.get('task2name')
+        task3name = request.data.get('task3name')
+
+        task1time = request.data.get('task1time')
+        task2time = request.data.get('task2time')    
+        task3time = request.data.get('task3time')
+
+        task3duedate = request.data.get('task3duedate')
+        
+        task1duedate = request.data.get('task1duedate')
+        task2duedate = request.data.get('task2duedate')
+
+        _username_ = get_object_or_404(Account, username=username_) #foreign key for user
+        task1it1 = Event(event_name = task1name,
+                                allows_concurrent_events = False,
+                                event_user = _username_,
+                                start_time = datetime(2024, 12, 6, 5, 0),
+                                duration_hrs = 4
+                        )
+        task1it1.save()
+        task1it2 = Event(event_name = task1name,
+                                allows_concurrent_events = False,
+                                event_user = _username_,
+                                start_time = datetime(2024, 12, 7, 5, 0),
+                                duration_hrs = 4
+        )
+        task1it2.save()
+        task1it3 = Event(event_name = task1name,
+                                    allows_concurrent_events = False,
+                                    event_user = _username_,
+                                    start_time = datetime(2024, 12, 8, 5, 0),
+                                    duration_hrs = 2)
+        task1it3.save(); 
+
+        task2it1 = Event(event_name = task2name,
+                                allows_concurrent_events = False,
+                                event_user = _username_,
+                                start_time = datetime(2024, 12, 8, 7, 0),
+                                duration_hrs = 2
+                        )
+        task2it1.save()
+
+        task2it2 = Event(event_name = task2name,
+                                allows_concurrent_events = False,
+                                event_user = _username_,
+                                start_time = datetime(2024, 12, 9, 5, 0),
+                                duration_hrs = 4
+                        )
+        task2it2.save()
+
+        task2it3 = Event(event_name = task2name,
+                                allows_concurrent_events = False,
+                                event_user = _username_,
+                                start_time = datetime(2024, 12, 10, 5, 0),
+                                duration_hrs = 4
+                        )
+        task2it3.save()
+
+        task2it4 = Event(event_name = task2name,
+                                allows_concurrent_events = False,
+                                event_user = _username_,
+                                start_time = datetime(2024, 12, 11, 5, 0),
+                                duration_hrs = 1
+                        )
+        task2it4.save()
+        
+
+        task3it1 = Event(event_name = task3name,
+                                allows_concurrent_events = False,
+                                event_user = _username_,
+                                start_time = datetime(2024, 12, 11, 3, 0),
+                                duration_hrs = 2
+                        )
+        task3it1.save()
+        return Response({"message": "Success"}, status=status.HTTP_200_OK)
+    except IntegrityError:
+        return Response({"message": "Failed to create account due to database error."}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+    except Exception as e:
+        return Response({"message": f"An unexpected error occurred: {str(e)}"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)

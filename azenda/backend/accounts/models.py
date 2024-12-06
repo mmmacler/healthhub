@@ -35,3 +35,4 @@ class Event(models.Model):
 #    friday = models.BooleanField(default=False)
 #    saturday = models.BooleanField(default=False)
 #    sunday = models.BooleanField(default=False)
+

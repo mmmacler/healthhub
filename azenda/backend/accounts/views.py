@@ -1,7 +1,7 @@
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework import status
-from .models import Account, Event
+from .models import Account, Event, RecurringEvent
 from .serializers import EventSerializer
 from django.db import IntegrityError
 from django.http.response import JsonResponse
@@ -20,16 +20,7 @@ def login(request): #login a user
     username = request.data.get('username')
     password = request.data.get('password')
 
-    '''
-    # Simple hardcoded login check for now
-    if username == 'username' and password == 'password':
-        return Response({"message": "Login successful!"}, status=status.HTTP_200_OK)
-    else:
-        return Response({"error": "Invalid credentials"}, status=status.HTTP_401_UNAUTHORIZED)
-    '''
-
     #check if the username the user put in even exists, if it doesn't go to except
-
     try:
         account = Account.objects.get(username=username)
 
@@ -102,6 +93,9 @@ def createEvent(request):
     _allows_concurrent_events = request.data.get('allows_concurrent_events')
 
 
+
+
+
     event_user_id = request.data.get('event_user')
     _event_user = get_object_or_404(Account, username=event_user_id) #foreign key for user
 
@@ -112,25 +106,81 @@ def createEvent(request):
     _start_time_hour = request.data.get('start_time_hour')
     _duration_hrs = request.data.get('duration_hrs')
 
+    if not _allows_concurrent_events:
+        _allows_concurrent_events = False
+        # filter for events happening this day
+        alluserevents = Event.objects.all()
+        alluserevents = alluserevents.filter(start_time__year = _start_time_year, start_time__month = _start_time_month, start_time__day = _start_time_day)
+        # loop and check we aren't overlapping another event
+        alluserevents.
+
 
     d = datetime(int(_start_time_year),
                  int(_start_time_month),
                  int(_start_time_day),
                  int(_start_time_hour),
                  0)
+    # OK SO LIKE
+    # first we read in a 'recurring' bool
+    # based on the value of that we decide
+    # whether to create an 'Event' or 'RecurringEvent'
+    _recurring = request.data.get("recurring")
+    if _recurring:
+        # i am tired and stupid
+        _monday = request.data.get('mon')
+        if not _monday: _monday = False
 
-    try:#whole bunch of error handling
-        new_event = Event(event_name = _event_name,
-                          allows_concurrent_events = _allows_concurrent_events,
-                          event_user = _event_user,
-                          start_time = d,
-                          duration_hrs = int(_duration_hrs))
-        new_event.save()
-        return Response({"message": "Event Created"}, status=status.HTTP_201_CREATED)#correct functioning case, need an additional case for handling event conflicts
-    except IntegrityError:
-        return Response({"message": "Failed to create account due to database error."}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
-    except Exception as e:
-        return Response({"message": f"An unexpected error occurred: {str(e)}"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+        _tuesday = request.data.get('tue')
+        if not _tuesday: _tuesday = False
+
+        _wednesday = request.data.get('wed')
+        if not _wednesday: _wednesday = False
+
+        _thursday = request.data.get('thu')
+        if not _thursday: _thursday = False
+
+        _friday = request.data.get('fri')
+        if not _friday: _friday = False
+
+        _saturday = request.data.get('sat')
+        if not _saturday: _saturday = False
+
+        _sunday = request.data.get('sun')
+        if not _sunday: _sunday = False
+
+        try:#whole bunch of error handling
+            new_event = RecurringEvent(event_name = _event_name,
+                              allows_concurrent_events = _allows_concurrent_events,
+                              event_user = _event_user,
+                              start_time = d,
+                              duration_hrs = int(_duration_hrs),
+                              monday = _monday,
+                              tuesday = _tuesday,
+                              wednesday = _wednesday,
+                              thursday = _thursday,
+                              friday = _friday,
+                              saturday = _saturday,
+                              sunday = _sunday,)
+            new_event.save()
+            return Response({"message": "Event Created"}, status=status.HTTP_201_CREATED)#correct functioning case, need an additional case for handling event conflicts
+        except IntegrityError:
+            return Response({"message": "Failed to create account due to database error."}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+        except Exception as e:
+            return Response({"message": f"An unexpected error occurred: {str(e)}"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+    else:
+        try:#whole bunch of error handling
+            new_event = Event(event_name = _event_name,
+                              allows_concurrent_events = _allows_concurrent_events,
+                              event_user = _event_user,
+                              start_time = d,
+                              duration_hrs = int(_duration_hrs))
+            new_event.save()
+            return Response({"message": "Event Created"}, status=status.HTTP_201_CREATED)#correct functioning case, need an additional case for handling event conflicts
+        except IntegrityError:
+            return Response({"message": "Failed to create account due to database error."}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+        except Exception as e:
+            return Response({"message": f"An unexpected error occurred: {str(e)}"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 
 @csrf_exempt

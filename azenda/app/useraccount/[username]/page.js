@@ -11,7 +11,7 @@ import { useParams, useRouter, useSearchParams } from "next/navigation";
 
 
 
-async function deleteEvent(id) 
+async function deleteEvent(id)
 {
     const res = await fetch(`http://localhost:8000/api/event/${id}/`, {
       method: "DELETE",
@@ -113,7 +113,7 @@ export default function Page() {
           className="add-button"
           onClick={() => router.push(`${user_name}/addeventsbyday/${selectedDate.getMonth() + 1}-${selectedDate.getDate()}-${selectedDate.getFullYear()}/addevents`)}
         >
-          Add Event
+          Add grugEvent
         </button>
         {eventItems.length > 0 ? (
           eventItems.map((item) => (
